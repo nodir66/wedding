@@ -1,4 +1,5 @@
-import React, {useRef   } from 'react';
+import React, {useRef,useState, useEffect   } from 'react';
+import axios from 'axios'
 import styles from './index.module.sass'
 import { MenuFoodItem } from '../menu_food_item';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -18,6 +19,21 @@ export const MenuFood = () => {
         swiperRef.current.swiper.slideNext()
     }
 
+
+    const [food, setFood] = useState([]);
+
+    useEffect(() => {
+        axios
+          .get('http://172.104.143.233:8000/services/menus/?id=1')
+          .then(function(response) {
+              console.log(response)
+            setFood(response.data)
+          })
+          .catch(error => console.log(error));
+        
+        }, []);
+
+
     return (
         <div className={styles.container}>
             <h1>Меню</h1>
@@ -25,52 +41,73 @@ export const MenuFood = () => {
             <Swiper
                     ref={swiperRef}
                     spaceBetween={50}
-                    slidesPerView={6}
+                    slidesPerView={3}
                     // onSlideChange={() => console.log('slide change')}
                     // onSwiper={(swiper) => console.log(swiper)}
                 >
 
-                    <SwiperSlide>
+                    {food.map((item)=>{
+                        return(
+                            <SwiperSlide className={styles.food_slide}>
+                                <MenuFoodItem
+                                    name={item.name}
+                                    type={item.type}
+                                    price={item.price}
+                                    image={item.image}
+                                />
+                                <MenuFoodItem
+                                    name={item.name}
+                                    type={item.type}
+                                    price={item.price}
+                                    image={item.image}
+                                />
+                            </SwiperSlide>
+                        )
+                    })}
+
+
+                    {/* <SwiperSlide className={styles.food_slide}>
                         <MenuFoodItem/>
                         <MenuFoodItem/>
 
                     </SwiperSlide>
 
 
-                    <SwiperSlide>
-                        {/* <MenuFoodItem/> */}
-                    </SwiperSlide>
-
-
-                    <SwiperSlide>
+                    <SwiperSlide className={styles.food_slide}>
                         <MenuFoodItem/>
                         <MenuFoodItem/>
 
                     </SwiperSlide>
 
-                    <SwiperSlide>
-                        {/* <MenuFoodItem/> */}
-                    </SwiperSlide>
-
-                    <SwiperSlide>
+                    <SwiperSlide className={styles.food_slide}>
                         <MenuFoodItem/>
                         <MenuFoodItem/>
 
                     </SwiperSlide>
 
-                    <SwiperSlide>
-                        {/* <MenuFoodItem/> */}
-                    </SwiperSlide>
-
-                    <SwiperSlide>
+                    <SwiperSlide className={styles.food_slide}>
                         <MenuFoodItem/>
                         <MenuFoodItem/>
 
                     </SwiperSlide>
 
-                    <SwiperSlide>
-                        {/* <MenuFoodItem/> */}
+                    <SwiperSlide className={styles.food_slide}>
+                        <MenuFoodItem/>
+                        <MenuFoodItem/>
+
                     </SwiperSlide>
+
+                    <SwiperSlide className={styles.food_slide}>
+                        <MenuFoodItem/>
+                        <MenuFoodItem/>
+
+                    </SwiperSlide>
+
+                    <SwiperSlide className={styles.food_slide}>
+                        <MenuFoodItem/>
+                        <MenuFoodItem/>
+
+                    </SwiperSlide> */}
 
                     
                     <div className={styles.buttonCont}>

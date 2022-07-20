@@ -3,7 +3,7 @@ import styles from './index.module.sass'
 import table from '../../assets/img/table.png'
 
 
-export const TableItem = () => {
+export const TableItem = ({type, price, name}) => {
     return (
         <div className={styles.table_item}>
             <div className={styles.img}>
@@ -12,13 +12,13 @@ export const TableItem = () => {
 
             <div className={styles.text}>
                 <div className={styles.left_text}>
-                    <h1>Класический</h1>
-                    <p>эвропейский стиль</p>
+                    <h1>{name}</h1>
+                    <p>{type}</p>
                 </div>
 
                 <div className={styles.right_text}>
                     <h3>кв</h3>
-                    <p>4$</p>
+                    <p>{price} сум</p>
                 </div>
             </div>
         </div>

@@ -16,7 +16,7 @@
         right: 0
         top: 100px
         z-index: -2
-        width: 57%
+        width: 55%
 
 
 
@@ -75,10 +75,10 @@
                 img
                     position: absolute  
                     z-index: -1
-                    top: 5px
+                    top: 1px
                     left: 0
                     height: 100%
-                    width: 93%
+                    width: 95%
                 
                 h1
                     font-weight: 500
@@ -102,6 +102,11 @@
                     float: right
                     cursor: pointer
                     font-family: 'Jost', sans-serif
+                    &:hover
+                        box-shadow: 2px 2px 2px 2px #db85b0
+                        background-color: #08ad31b6
+                        color: #fff
+                        transition: 0.5s
 
                          
             
@@ -112,3 +117,42 @@
                     width: 500px
                     position: relative
                     z-index: 3
+                    bottom: 15px
+
+@media ( max-width: 1000px  )
+    .header
+        .bgimg2
+            display: none
+        .container
+            .header_content
+                width: max-content
+                display: flex
+                justify-content: space-between
+                .logo
+                    p
+                        font-size: 30px
+
+                    img    
+                .menu
+                    display: none
+
+                .bars_cont
+                    // width: 300px
+                    margin-left: 50px
+                    img
+            .header_info
+                display: block  
+                .left_content
+                    img
+                        display: none   
+                    h1
+                        font-size: 30px
+
+                    button
+                        float: left 
+                .right_content
+                    img
+                        margin-left: -200px   
+                        width: 400px                  
+
+                        

@@ -1,4 +1,5 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState, useEffect} from 'react';
+import axios from 'axios'
 import { SceneryItem } from '../scenery_item';
 import styles from './index.module.sass'
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -6,7 +7,7 @@ import 'swiper/css';
 import right from '../../assets/img/Arrow 5.png'
 import left from '../../assets/img/Arrow 6.png'
 
-export const Scenery = () => {
+export const Scenery = ({name, type, price, image, description}) => {
 
     const swiperRef = useRef(null)
 
@@ -18,6 +19,19 @@ export const Scenery = () => {
         swiperRef.current.swiper.slideNext()
     }
 
+    const [decor, setDecor] = useState([]);
+
+    useEffect(() => {
+        axios
+          .get('http://172.104.143.233:8000/services/services/')
+          .then(function(response) {
+              console.log(response)
+              setDecor(response.data)
+          })
+          .catch(error => console.log(error));
+        
+      }, []);
+
     return (
         <div className={styles.container}>
             <h1>Декорации</h1>
@@ -25,46 +39,56 @@ export const Scenery = () => {
             <Swiper
                     ref={swiperRef}
                     spaceBetween={50}
-                    slidesPerView={5}
+                    slidesPerView={3}
                     // onSlideChange={() => console.log('slide change')}
                     // onSwiper={(swiper) => console.log(swiper)}
                 >
 
-                    <SwiperSlide>
+                    {decor.map((item)=>{
+                        return(
+                            <SwiperSlide className={styles.scslide}>
+                                <SceneryItem
+                                    name={item.name}
+                                    type={item.type}
+                                    price={item.price}
+                                    image={item.image}
+                                    description={item.description}
+                                />
+                            </SwiperSlide>
+                        )
+                    })}
+
+
+                    {/* <SwiperSlide className={styles.scslide}>
                         <SceneryItem/>
                     </SwiperSlide>
 
 
-                    <SwiperSlide>
-                        {/* <SceneryItem/> */}
-                    </SwiperSlide>
-
-
-                    <SwiperSlide>
+                    <SwiperSlide className={styles.scslide}>
                         <SceneryItem/>
 
                     </SwiperSlide>
 
-                    <SwiperSlide>
-                        {/* <SceneryItem/> */}
-                    </SwiperSlide>
-
-                    <SwiperSlide>
+                    <SwiperSlide className={styles.scslide}>
                         <SceneryItem/>
                     </SwiperSlide>
 
-                    <SwiperSlide>
-                        {/* <SceneryItem/> */}
+                    <SwiperSlide className={styles.scslide}>
+                        <SceneryItem/>
                     </SwiperSlide>
 
-                    <SwiperSlide>
+                    <SwiperSlide className={styles.scslide}> 
+                        <SceneryItem/>
+                    </SwiperSlide>
+
+                    <SwiperSlide className={styles.scslide}>
                         <SceneryItem/>
 
                     </SwiperSlide>
 
-                    <SwiperSlide>
-                        {/* <SceneryItem/> */}
-                    </SwiperSlide>
+                    <SwiperSlide className={styles.scslide}>
+                        <SceneryItem/>
+                    </SwiperSlide> */}
 
                     
                     <div className={styles.buttonCont}>

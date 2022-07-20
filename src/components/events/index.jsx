@@ -6,7 +6,7 @@ import events3 from '../../assets/img/events3.png'
 import $ from 'jquery';
 
 
-export const Events = () => {
+export const Events = ({image, name, definition, active}) => {
 
     
 
@@ -20,20 +20,25 @@ export const Events = () => {
                 </div>
 
                 <div className={styles.events_content}>
-                    <div className={styles.img_left}>
+
+                
+
+
+                    <div onClick={()=> {window.scrollBy(0, 700)}}  className={styles.img_left}>
                         <img src={events1}  alt="" />
                         <h2>Свадьба</h2>
                         <p>Свадебные мероприятия и так далее лорем ипсум</p>
+                        {/* {active} */}
                     </div>
                     
 
-                    <div className={styles.img_center}>
+                    <div onClick={()=> {window.scrollBy(0, 700)}} className={styles.img_center}>
                         <img src={events2}  alt="" />
                         <h2>Утренний плов</h2>
                         <p>Свадебные мероприятия и так далее лорем ипсум</p>
                     </div>
 
-                    <div className={styles.img_right}>
+                    <div onClick={()=> {window.scrollBy(0, 700)}} className={styles.img_right}>
                         <img src={events3}  alt="" />
                         <h2>Банкет</h2>
                         <p>Свадебные мероприятия и так далее лорем ипсум</p>
