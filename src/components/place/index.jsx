@@ -8,7 +8,7 @@ import right from '../../assets/img/Arrow 5.png'
 import left from '../../assets/img/Arrow 6.png'
 
 
-export const Place = () => {
+export const Place = ({resid, setPlacevalue, placeid}) => {
 
     const [data, setData] = useState();
 
@@ -28,20 +28,27 @@ export const Place = () => {
     //      .then((response) => console.log(response));
     //    }, []);
 
-
+    // console.log(localStorage.token.access)
 
     const [place, setPlace] = useState([]);
-    
-    // useEffect(() => {
-    //     axios
-    //       .get('http://172.104.143.233:8000/services/restorans/?id=1')
-    //       .then(function(response) {
-    //           console.log(response)
-    //         setPlace(response.data)
-    //       })
-    //       .catch(error => console.log(error));
+    const token = JSON.parse(localStorage.getItem('token'))
+    console.log(token)
+    useEffect(() => {
+        axios
+          .get(`http://172.104.143.233:8000/services/restorans/?id=${resid}`,{
+            method: 'POST',
+            headers: {
+                "Authorization": `Bearer ${token.access}`
+            }
+          })
+          .then(function(response) {
+              console.log(response)
+            setPlace(response.data)
+          })
+          .catch(error => console.log(error));
         
-    //     }, []);
+        }, [resid]);
+    
     
     return (
         <div className={styles.container}>
@@ -51,23 +58,31 @@ export const Place = () => {
                 <Swiper
                     className={styles.swiper}
                     ref={swiperRef}
-                    spaceBetween={60}
-                    slidesPerView={2}
+                    spaceBetween={50}
+                    slidesPerView={1}
                     // onSlideChange={() => console.log('slide change')}
                     // onSwiper={(swiper) => console.log(swiper)}
                 >
 
                     {place.map((item)=>{
                         return(
-                            <SwiperSlide className={styles.place_slide}>
-                                <PlaceItem
-
-                                />
+                            <SwiperSlide onClick={()=>{
+                                setPlacevalue(item.restoran)
+                                placeid(item.id)
+                                }} 
+                                className={styles.place_slide}>
+                                <PlaceItem 
+                                    restoran={item.restoran}
+                                    city={item.city}
+                                    address={item.address}
+                                    image={item.image}
+                                    >
+                                </PlaceItem>
                             </SwiperSlide>
                         )
                     })}
 
-                    <SwiperSlide className={styles.place_slide}>
+                    {/* <SwiperSlide className={styles.place_slide}>
                         <PlaceItem/>
                     </SwiperSlide>
 
@@ -97,7 +112,7 @@ export const Place = () => {
 
                     <SwiperSlide className={styles.place_slide}>
                         <PlaceItem/>
-                    </SwiperSlide>
+                    </SwiperSlide> */}
 
                     
                     <div className={styles.buttonCont}>

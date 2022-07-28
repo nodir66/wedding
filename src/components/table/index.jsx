@@ -7,7 +7,7 @@ import 'swiper/css';
 import right from '../../assets/img/Arrow 5.png'
 import left from '../../assets/img/Arrow 6.png'
 
-export const Table = () => {
+export const Table = ({setTablevalue, setTableid}) => {
 
 
     const [activeIndex, setActiveIndex] = React.useState(0);
@@ -66,7 +66,11 @@ export const Table = () => {
 
                     {data.map((item, index) =>{
                         return(
-                            <SwiperSlide  className={styles.swslide}>
+                            <SwiperSlide onClick={()=>{
+                                setTablevalue(item.name)
+                                setTableid(item.id)
+                                }} 
+                                className={styles.swslide}>
                                 <TableItem 
                                     name={item.name}
                                     type={item.type}

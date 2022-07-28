@@ -2,9 +2,12 @@ import React from 'react';
 import styles from './index.module.sass'
 import decor from '../../assets/img/decor.png'
 
-export const SceneryItem = ({name, type, price, image, description}) => {
+
+
+export const SceneryItem = ({name, type, price, image, description, }) => {
     return (
         <div className={styles.table_item}>
+
             <div className={styles.img}>
                 <img src={image} alt="" />
             </div>

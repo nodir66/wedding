@@ -22,12 +22,20 @@ const style = {
     p: 4,
   };
 
-export const PlaceItem = () => {
+export const PlaceItem = ({restoran, city, address, image, setActive}) => {
 
     const [open, setOpen] = React.useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
+
+    // const [style, setStyle]= React.useState("h11")
+
+    // const changeStyle = () => {
+    //     console.log("you just clicked");
+      
+    //     setStyle("h22");
+    // };
 
     return (
         <div className={styles.place_item}>
@@ -57,8 +65,7 @@ export const PlaceItem = () => {
 
 
             <div className={styles.left_content}>
-
-                <img className={styles.img_top} src={place1} alt="" />
+                <img className={styles.img_top } src={image} alt="" />
                 <img className={styles.img_bottom} src={place2} alt="" />
                 <img className={styles.img_bottom} src={place3} alt="" />
 
@@ -67,8 +74,9 @@ export const PlaceItem = () => {
             <div className={styles.right_content}>
 
                 <div className={styles.name}>
-                    <h1>YAKKASAROY</h1>
-                    <p>wedding restaurant</p>
+                    <h1>{restoran}</h1>
+                    <p>{city}</p>
+
                 </div>
 
                 <div className={styles.together}>

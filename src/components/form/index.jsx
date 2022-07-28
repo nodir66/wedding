@@ -25,7 +25,7 @@ import InputMask from 'react-input-mask';
 
 
 
-export const Form = ({ setOpen }) => {
+export const Form = ({ setOpen, tokenData }) => {
 
     // const [value, setValue] = React.useState(null);
 
@@ -123,50 +123,67 @@ export const Form = ({ setOpen }) => {
         },
         validateOnChange: false,
         validate: handleValidate,
-        onSubmit: values => {
-
-            console.log('message')
-
-            window.scrollBy(0, 1000);
-            // COLLAPSE
-            setOpen(true)
-
-            let date = document.getElementById("date")
-            values.date=date
-                let dateObj = new Date();
-
-                let myDate = (dateObj.getUTCFullYear()) + "/" + (dateObj.getMonth() + 1)+ "/" + (dateObj.getUTCDate());
-
-                console.log(myDate)
+        onSubmit: async values => {
+            let myDate = (values.date.getUTCFullYear()) + "-" + (values.date.getMonth() + 1)+ "-" + (values.date.getUTCDate());
+            // date format for push request '2022-02-15'
+            console.log(myDate)
             const postData =  {
                 "username": values.name,
                 "number": values.number,
-                "event_date": values.date,
+                // "event_date": values.date,
+                "event_date": myDate,
                 "city": values.place,
             }
+            try {
+                await axios.post("http://172.104.143.233:8000/accounts/register/", postData)
+                setOpen(true)
+                alert('You have success registrated')
+                window.scrollBy(0, 1000);
+                hanldeGetToken()
 
-            axios.post("http://172.104.143.233:8000/accounts/register/", postData).then((response) => {
-                console.log(response);
-            });
-
-            
-
-
-            const tokenData = {
-                
-                "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjU4NzI2NjcwLCJpYXQiOjE2NTgyOTQ2NzAsImp0aSI6Ijk2ZDNjYTI4MGVkNjQ4NGI4Yjk2YzU0ZjY0NTQ0MjU3IiwidXNlcl9pZCI6NTl9.z8x6Uc1SZtgGMESZjnYRtJaW6T-ZisSOyc5pOXyTG00",
-                
+            } catch (error) {
+                console.log('error', error)
+                if (error.response.status === 400) {
+                    if (error.response.data.number) {
+                        alert(`bad request ${error.response.data.number[0]}`)
+                    }
+                }  else if (error.response.status === 500) {
+                    alert('server is not working')
+                }
             }
 
-            axios.post("http://172.104.143.233:8000/accounts/api/token", tokenData).then((response) => {
-                console.log(response)
-            })            
+
 
         }
     })
 
 
+    const hanldeGetToken = async () => {
+        const postData = {
+            number: formik.values.number,
+            password: 'jobir123'
+        }
+        try {
+            const returnedData = await axios.post("http://172.104.143.233:8000/accounts/api/token/", postData)
+            console.log('returnedData',returnedData)
+            alert('You have success registrated')
+            localStorage.setItem('token', JSON.stringify(returnedData.data));
+            
+        } catch (error) {
+            console.log('error', error)
+            if (error.response.status === 400) {
+                alert(`bad request ${JSON.stringify(error.response.data)}`)
+            }  else if (error.response.status === 500) {
+                alert('server is not working')
+            }
+        }
+    }
+
+
+
+
     
+
     
 
 
@@ -181,7 +198,7 @@ export const Form = ({ setOpen }) => {
                 <input id='name' className={styles.name} type="text" onChange={formik.handleChange} name="name" value={formik.values.name} placeholder='Имя Фамилия' />
                 <p>{formik.errors.nameError}</p>
 
-                <input id='number' className={styles.number} type="number" onChange={formik.handleChange} name="number" value={formik.values.number} placeholder='+998' />
+                <input id='number' className={styles.number} type="number" onChange={formik.handleChange} name="number" value={formik.values.number} placeholder='(99)123-45-67' />
                 <p>{formik.errors.numberError}</p>
 
                 {/* <input id='password' className={styles.number} type="password" onChange={formik.handleChange} name="password" value={formik.values.password} placeholder='Пароль' />
@@ -226,7 +243,7 @@ export const Form = ({ setOpen }) => {
                         name='date'
                         label="Дата мероприятия"
                         value={formik.values.date}
-                        inputFormat="yyyy/mm/dd"
+                        inputFormat="yyyy/MM/dd"
                         // valueFormat="yyyy/mm/dd"
 
                         onChange={value => {
@@ -272,6 +289,7 @@ export const Form = ({ setOpen }) => {
                 </div> */}
 
                 <button className={styles.btn} type='button' onClick={formik.handleSubmit}>Далее</button>
+                {/* <button className={styles.btn} type='button' onClick={hanldeGetToken}>get token</button> */}
             </div>
 
 

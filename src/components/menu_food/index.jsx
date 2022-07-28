@@ -7,7 +7,7 @@ import 'swiper/css';
 import right from '../../assets/img/Arrow 5.png'
 import left from '../../assets/img/Arrow 6.png'
 
-export const MenuFood = () => {
+export const MenuFood = ({setMenuvalue, setMenuid, tableid}) => {
 
     const swiperRef = useRef(null)
 
@@ -24,14 +24,14 @@ export const MenuFood = () => {
 
     useEffect(() => {
         axios
-          .get('http://172.104.143.233:8000/services/menus/?id=1')
+          .get(`http://172.104.143.233:8000/services/menus/?id=${1}`)
           .then(function(response) {
               console.log(response)
             setFood(response.data)
           })
           .catch(error => console.log(error));
         
-        }, []);
+        }, [tableid]);
 
 
     return (
@@ -48,7 +48,9 @@ export const MenuFood = () => {
 
                     {food.map((item)=>{
                         return(
-                            <SwiperSlide className={styles.food_slide}>
+                            <SwiperSlide onClick={()=>{setMenuvalue(item.name)
+                                setMenuid(item.id)}}
+                                 className={styles.food_slide}>
                                 <MenuFoodItem
                                     name={item.name}
                                     type={item.type}

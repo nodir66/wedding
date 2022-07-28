@@ -7,7 +7,10 @@ import 'swiper/css';
 import right from '../../assets/img/Arrow 5.png'
 import left from '../../assets/img/Arrow 6.png'
 
-export const Scenery = ({name, type, price, image, description}) => {
+export const Scenery = ({setDecorvalue, setDecorid}) => {
+
+
+
 
     const swiperRef = useRef(null)
 
@@ -46,7 +49,9 @@ export const Scenery = ({name, type, price, image, description}) => {
 
                     {decor.map((item)=>{
                         return(
-                            <SwiperSlide className={styles.scslide}>
+                            <SwiperSlide onClick={()=>{setDecorvalue(item.name)
+                                setDecorid(item.id)}}
+                                className={styles.scslide}>
                                 <SceneryItem
                                     name={item.name}
                                     type={item.type}
